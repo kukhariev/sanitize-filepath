@@ -1,4 +1,4 @@
-import { run, bench, group, baseline } from 'mitata';
+import { baseline, bench, group, run } from 'mitata';
 import sanitizeFilename from 'sanitize-filename';
 import { sanitize } from '../lib/index.mjs';
 

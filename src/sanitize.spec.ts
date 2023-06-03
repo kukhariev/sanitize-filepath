@@ -4,17 +4,19 @@ import { sanitize, sanitizePath } from './sanitize';
 describe('test', () => {
   describe('sanitize', () => {
     it('truncate', () => {
-      expect(sanitize('Привет 😊😊😊', { truncate: 19 })).equal('Привет 😊');
-      expect(sanitize('Привет 😊😊😊', { truncate: 18 })).equal('Привет 😊');
-      expect(sanitize('Привет 😊😊😊', { truncate: 17 })).equal('Привет 😊');
-      expect(sanitize('Привет 😊😊😊', { truncate: 16 })).equal('Привет ');
-      expect(sanitize('Привет 😊😊😊', { truncate: 15 })).equal('Привет ');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 19 })).equal('Привет 😊');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 18 })).equal('Привет 😊');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 17 })).equal('Привет 😊');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 16 })).equal('Привет ');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 15 })).equal('Привет ');
     });
 
     it('illegal', () => {
-      expect(sanitize('../тест')).equal('..тест');
-      expect(sanitize('./тест')).equal('.тест');
-      expect(sanitize('../../тест')).equal('....тест');
+      // expect(sanitize([] as unknown as string)).equal('');
+      expect(sanitize('../тест')).equal('тест');
+      expect(sanitize('./тест')).equal('тест');
+      expect(sanitize('../../тест')).equal('тест');
+      expect(sanitize('.тест')).equal('.тест');
       expect(sanitize('con')).equal('');
       expect(sanitize('com9')).equal('');
       expect(sanitize('con.com')).equal('com');
@@ -24,11 +26,11 @@ describe('test', () => {
     });
 
     it('spaces', () => {
-      expect(sanitize('./test  file', { whitespaceReplacer: '_' })).equal('.test__file');
-      expect(sanitize('./test  ', { whitespaceReplacer: '_' })).equal('.test');
+      expect(sanitize('./test  file', { whitespaceReplacement: '_' })).equal('test__file');
+      expect(sanitize('./test  ', { whitespaceReplacement: '_' })).equal('test');
     });
   });
-  
+
   describe('sanitizePath', () => {
     it('absolute', () => {
       expect(sanitizePath('./test')).equal('test');
@@ -41,6 +43,7 @@ describe('test', () => {
       expect(sanitizePath('c:\\test')).equal('test');
       expect(sanitizePath('c://test')).equal('test');
       expect(sanitizePath('c:/test')).equal('test');
+      expect(sanitizePath('c:/test.com')).equal('test.com');
     });
 
     it('relative', () => {

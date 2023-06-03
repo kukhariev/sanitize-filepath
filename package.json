@@ -1,7 +1,7 @@
 {
   "name": "sanitize-filepath",
   "version": "0.0.2",
-  "description": "sanitize-filepath",
+  "description": "safe filename and path",
   "files": [
     "lib"
   ],
