@@ -23,19 +23,21 @@ describe('test', () => {
       expect(sanitize('con com')).equal('con com');
       expect(sanitize('..con..')).equal('..con');
       expect(sanitize('?cmd=rm+/tmp/*')).equal('cmd=rm+tmp');
+      expect(sanitize('./test\t')).equal('test');
+      expect(sanitize('./test\n')).equal('test');
     });
 
     it('spaces', () => {
       expect(sanitize('./test  file', { whitespaceReplacement: '_' })).equal('test__file');
       expect(sanitize('./test  ', { whitespaceReplacement: '_' })).equal('test');
+      expect(sanitize('./test\t', { whitespaceReplacement: '_' })).equal('test');
+      expect(sanitize('./test  .ext', { whitespaceReplacement: '_' })).equal('test__.ext');
+      expect(sanitize('./test\t\t.ext', { whitespaceReplacement: '_' })).equal('test__.ext');
     });
   });
 
   describe('sanitizePath', () => {
     it('absolute', () => {
-      expect(sanitizePath('./test')).equal('test');
-      expect(sanitizePath('../test')).equal('test');
-      expect(sanitizePath('.....///test')).equal('test');
       expect(sanitizePath('//test')).equal('test');
       expect(sanitizePath('/test')).equal('test');
       expect(sanitizePath('c:\\test')).equal('test');
@@ -47,7 +49,11 @@ describe('test', () => {
     });
 
     it('relative', () => {
+      expect(sanitizePath('../test')).equal('test');
+      expect(sanitizePath('.....///test')).equal('test');
       expect(sanitizePath('./test/file')).equal('test/file');
+      expect(sanitizePath('./test/../../file')).equal('test/file');
+      expect(sanitizePath('./test/./../file')).equal('test/file');
       expect(sanitizePath('./test//file')).equal('test/file');
       expect(sanitizePath('./test\\file')).equal('test/file');
     });
