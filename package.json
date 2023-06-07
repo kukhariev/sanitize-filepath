@@ -25,6 +25,7 @@
     "test:watch": "mocha --watch",
     "lint": "rome check src examples",
     "format": "rome format --write src examples",
+    "example":  "node ./examples/example.mjs",
     "benchmark": "node ./examples/benchmark.mjs"
   },
   "author": {
