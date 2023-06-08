@@ -32,6 +32,10 @@
     "name": "kukhariev",
     "email": "q_h@inbox.ru"
   },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/kukhariev/sanitize-filepath.git"
+    },
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "4.3.5",
