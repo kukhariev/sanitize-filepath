@@ -7,8 +7,8 @@ describe('test', () => {
       expect(sanitize('Привет 😊😊😊', { maxLength: 19 })).equal('Привет 😊');
       expect(sanitize('Привет 😊😊😊', { maxLength: 18 })).equal('Привет 😊');
       expect(sanitize('Привет 😊😊😊', { maxLength: 17 })).equal('Привет 😊');
-      expect(sanitize('Привет 😊😊😊', { maxLength: 16 })).equal('Привет ');
-      expect(sanitize('Привет 😊😊😊', { maxLength: 15 })).equal('Привет ');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 16 })).equal('Привет');
+      expect(sanitize('Привет 😊😊😊', { maxLength: 15 })).equal('Привет');
     });
 
     it('illegal', () => {

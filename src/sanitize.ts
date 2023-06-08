@@ -29,13 +29,13 @@ const reservedRe = /^\.+$/;
 const controlRe = /[\x00-\x1f\x80-\x9f]/g;
 const relativeRe = /\.+[\\/]+/g;
 const winReservedRe = /^(aux|con|nul|prn|com\d|lpt\d)(?:\.|$)/i;
-const winTrailingRe = /[.]+$/;
+const winTrailingRe = /[. ]+$/;
 
 /**
  * Sanitize a string for use as a filename
  */
 export function sanitize(input: string, options: SanitizeOptions = {}): string {
-  const { replacement = '', maxLength = 255, whitespaceReplacement = '' } = options;
+  const { replacement = '', maxLength = 255, whitespaceReplacement } = options;
   let sanitized = input.trim();
   sanitized = whitespaceReplacement ? sanitized.replace(/\s/g, whitespaceReplacement) : sanitized;
   sanitized = sanitized
@@ -57,7 +57,7 @@ const separatorsRe = /\/+|\\/g;
  * Sanitize a string for use as a filepath
  */
 export function sanitizePath(input: string, options: SanitizeOptions = {}): string {
-  const { replacement = '', maxLength = 255, whitespaceReplacement = '' } = options;
+  const { replacement = '', maxLength = 255, whitespaceReplacement } = options;
   let sanitized = input.trim();
   sanitized = whitespaceReplacement ? sanitized.replace(/\s/g, whitespaceReplacement) : sanitized;
   sanitized = sanitized
