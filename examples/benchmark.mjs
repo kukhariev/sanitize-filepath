@@ -5,6 +5,8 @@ import { sanitize } from '../lib/index.mjs';
 const bad = '/?illegal<>*..';
 const utf8 = 'Привет буфет 😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊😊.txt';
 const long = utf8.repeat(10);
+const danger1 = `x${'.'.repeat(40)}`.repeat(40);
+const danger2 = `x${' '.repeat(40)}`.repeat(40);
 
 group('sanitize(utf8)', () => {
   baseline('sanitize-filepath', () => sanitize(utf8));
@@ -19,6 +21,16 @@ group('sanitize(bad)', () => {
 group('sanitize(long)', () => {
   baseline('sanitize-filepath', () => sanitize(long));
   bench('sanitize-filename', () => sanitizeFilename(long));
+});
+
+group('sanitize(danger1)', () => {
+  baseline('sanitize-filepath', () => sanitize(danger1));
+  bench('sanitize-filename', () => sanitizeFilename(danger1));
+});
+
+group('sanitize(danger2)', () => {
+  baseline('sanitize-filepath', () => sanitize(danger2));
+  bench('sanitize-filename', () => sanitizeFilename(danger2));
 });
 
 await run({

@@ -29,20 +29,22 @@ const reservedRe = /^\.+$/;
 const controlRe = /[\x00-\x1f\x80-\x9f]/g;
 const relativeRe = /\.+[\\/]+/g;
 const winReservedRe = /^(aux|con|nul|prn|com\d|lpt\d)(?:\.|$)/i;
-const winTrailingRe = /[. ]+$/;
+const winTrailingRe = /[.]+$/;
+// const winTrailingRe = /(?<![.])[.]+$/; // safari 16.3+
 
 /**
  * Sanitize a string for use as a filename
  */
 export function sanitize(input: string, options: SanitizeOptions = {}): string {
   const { replacement = '', maxLength = 255, whitespaceReplacement } = options;
-  let sanitized = input.trim();
+  let sanitized = input.trim().slice(0, maxLength);
   sanitized = whitespaceReplacement ? sanitized.replace(/\s/g, whitespaceReplacement) : sanitized;
   sanitized = sanitized
     .replace(relativeRe, replacement)
     .replace(illegalRe, replacement)
     .replace(controlRe, replacement);
   sanitized = truncate(sanitized, maxLength)
+    .trimEnd()
     .replace(reservedRe, replacement)
     .replace(winReservedRe, replacement)
     .replace(winTrailingRe, replacement);
@@ -58,7 +60,7 @@ const separatorsRe = /\/+|\\/g;
  */
 export function sanitizePath(input: string, options: SanitizeOptions = {}): string {
   const { replacement = '', maxLength = 255, whitespaceReplacement } = options;
-  let sanitized = input.trim();
+  let sanitized = input.trim().slice(0, maxLength);
   sanitized = whitespaceReplacement ? sanitized.replace(/\s/g, whitespaceReplacement) : sanitized;
   sanitized = sanitized
     .replace(controlRe, replacement)
@@ -67,6 +69,7 @@ export function sanitizePath(input: string, options: SanitizeOptions = {}): stri
     .replace(relativeRe, replacement)
     .replace(pathIllegalRe, replacement);
   sanitized = truncate(sanitized, maxLength)
+    .trimEnd()
     .replace(reservedRe, replacement)
     .replace(winReservedRe, replacement)
     .replace(winTrailingRe, replacement);
