@@ -27,7 +27,7 @@ export function truncate(input: string, byteLength: number): string {
 const illegalRe = /[?<>/\\:*|"]/g;
 const reservedRe = /^\.+$/;
 const controlRe = /[\x00-\x1f\x80-\x9f]/g;
-const relativeRe = /\.+[\\/]+/g; // fixme:
+const relativeRe = /\.{1,2}[\\/]+/g;
 const winReservedRe = /^(aux|con|nul|prn|com\d|lpt\d)(?:\.|$)/i;
 
 /**
@@ -70,6 +70,6 @@ export function sanitizePath(input: string, options: SanitizeOptions = {}): stri
     .trimEnd()
     .replace(reservedRe, replacement)
     .replace(winReservedRe, replacement);
- while (sanitized[sanitized.length - 1] === '.') sanitized = sanitized.slice(0, -1) + replacement;
+  while (sanitized[sanitized.length - 1] === '.') sanitized = sanitized.slice(0, -1) + replacement;
   return replacement ? sanitizePath(sanitized, { ...options, replacement: '' }) : sanitized;
 }
