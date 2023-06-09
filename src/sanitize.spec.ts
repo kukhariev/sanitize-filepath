@@ -50,7 +50,8 @@ describe('test', () => {
 
     it('relative', () => {
       expect(sanitizePath('../test')).equal('test');
-      expect(sanitizePath('.....///test')).equal('test');
+      expect(sanitizePath('../.test')).equal('.test');
+      expect(sanitizePath('.....///test')).equal('...test');
       expect(sanitizePath('./test/file')).equal('test/file');
       expect(sanitizePath('./test/../../file')).equal('test/file');
       expect(sanitizePath('./test/./../file')).equal('test/file');
