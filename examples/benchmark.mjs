@@ -7,6 +7,7 @@ const utf8 = 'Привет буфет 😊😊😊😊😊😊😊😊😊😊�
 const long = utf8.repeat(10);
 const danger1 = `x${'.'.repeat(40)}`.repeat(40);
 const danger2 = `x${' '.repeat(40)}`.repeat(40);
+const danger3 = `x${'-'.repeat(40)}`.repeat(40);
 
 group('sanitize(utf8)', () => {
   baseline('sanitize-filepath', () => sanitize(utf8));
@@ -31,6 +32,11 @@ group('sanitize(danger1)', () => {
 group('sanitize(danger2)', () => {
   baseline('sanitize-filepath', () => sanitize(danger2));
   bench('sanitize-filename', () => sanitizeFilename(danger2));
+});
+
+group('sanitize(danger3)', () => {
+  baseline('sanitize-filepath', () => sanitize(danger3));
+  bench('sanitize-filename', () => sanitizeFilename(danger3));
 });
 
 await run({
