@@ -24,6 +24,8 @@ export function truncate(input: string, byteLength: number): string {
   return input.slice(0, read);
 }
 
+const secondRunOptions = { maxLength: Number.MAX_SAFE_INTEGER, replacement: '' };
+
 const illegalRe = /[?<>/\\:*|"]/g;
 const reservedRe = /^\.+$/;
 const controlRe = /[\x00-\x1f\x80-\x9f]/g;
@@ -46,7 +48,7 @@ export function sanitize(input: string, options: SanitizeOptions = {}): string {
     .replace(reservedRe, replacement)
     .replace(winReservedRe, replacement);
   while (sanitized[sanitized.length - 1] === '.') sanitized = sanitized.slice(0, -1) + replacement;
-  return replacement ? sanitize(sanitized, { ...options, replacement: '' }) : sanitized;
+  return replacement ? sanitize(sanitized, secondRunOptions) : sanitized;
 }
 
 const pathIllegalRe = /[?<>:*|"]/g;
@@ -71,5 +73,5 @@ export function sanitizePath(input: string, options: SanitizeOptions = {}): stri
     .replace(reservedRe, replacement)
     .replace(winReservedRe, replacement);
   while (sanitized[sanitized.length - 1] === '.') sanitized = sanitized.slice(0, -1) + replacement;
-  return replacement ? sanitizePath(sanitized, { ...options, replacement: '' }) : sanitized;
+  return replacement ? sanitize(sanitized, secondRunOptions) : sanitized;
 }

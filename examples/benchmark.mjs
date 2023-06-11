@@ -24,6 +24,11 @@ group('sanitize(long)', () => {
   bench('sanitize-filename', () => sanitizeFilename(long));
 });
 
+group('sanitize(long, replacement)', () => {
+  baseline('sanitize-filepath', () => sanitize(long, { replacement: '#' }));
+  bench('sanitize-filename', () => sanitizeFilename(long, { replacement: '#' }));
+});
+
 group('sanitize(danger1)', () => {
   baseline('sanitize-filepath', () => sanitize(danger1));
   bench('sanitize-filename', () => sanitizeFilename(danger1));
