@@ -25,7 +25,7 @@ const filepath = sanitizePath('/home/user/<file>.ext'); // home/user/file.ext
 ## Configure
 ```ts
 const options: SanitizeOptions =  {
-    maxLength: 255, // max filename/filepath length in bytes
+    maxLength: 255, // max filename length in bytes
     replacement: "" // replacement for invalid characters
     whitespaceReplacement: undefined // replacement for spaces, tabs, and newlines
 };
