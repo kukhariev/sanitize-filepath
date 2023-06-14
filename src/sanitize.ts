@@ -1,6 +1,6 @@
 export type SanitizeOptions = {
   /**
-   * Max filename/filepath length in bytes
+   * Max filename length in bytes
    * @defaultValue 255
    */
   maxLength?: number;
@@ -60,18 +60,24 @@ const separatorsRe = /\/+|\\/g;
  */
 export function sanitizePath(input: string, options: SanitizeOptions = {}): string {
   const { replacement = '', maxLength = 255, whitespaceReplacement } = options;
-  let sanitized = input.trim().slice(0, maxLength);
+  let sanitized = input.trim().slice(0, 4096);
   sanitized = whitespaceReplacement ? sanitized.replace(/\s/g, whitespaceReplacement) : sanitized;
   sanitized = sanitized
     .replace(controlRe, replacement)
     .replace(separatorsRe, '/')
     .replace(absoluteRe, replacement)
     .replace(relativeRe, replacement)
-    .replace(pathIllegalRe, replacement);
-  sanitized = truncate(sanitized, maxLength)
-    .trimEnd()
-    .replace(reservedRe, replacement)
-    .replace(winReservedRe, replacement);
-  while (sanitized[sanitized.length - 1] === '.') sanitized = sanitized.slice(0, -1) + replacement;
+    .replace(pathIllegalRe, replacement)
+    .replace(reservedRe, replacement);
+
+  const pathSegments = sanitized
+    .split('/')
+    .filter(Boolean)
+    .map((segment) => {
+      let part = truncate(segment.trim(), maxLength).trimEnd().replace(winReservedRe, replacement);
+      while (part[part.length - 1] === '.') part = part.slice(0, -1) + replacement;
+      return part;
+    });
+  sanitized = pathSegments.join('/');
   return replacement ? sanitize(sanitized, secondRunOptions) : sanitized;
 }
