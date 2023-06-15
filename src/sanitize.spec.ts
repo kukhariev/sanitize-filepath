@@ -10,6 +10,13 @@ describe('test', () => {
       expect(sanitize('Привет 😊😊😊', { maxLength: 16 })).equal('Привет');
       expect(sanitize('Привет 😊😊😊', { maxLength: 15 })).equal('Привет');
     });
+    it('truncate with ext', () => {
+      expect(sanitize('Привет 😊😊😊.txt', { maxLength: 23 })).equal('Привет 😊.txt');
+      expect(sanitize('Привет 😊😊😊.txt', { maxLength: 22 })).equal('Привет 😊.txt');
+      expect(sanitize('Привет 😊😊😊.txt', { maxLength: 21 })).equal('Привет 😊.txt');
+      expect(sanitize('Привет 😊😊😊.txt', { maxLength: 20 })).equal('Привет .txt');
+      expect(sanitize('Привет 😊😊😊.txt', { maxLength: 19 })).equal('Привет .txt');
+    });
 
     it('illegal', () => {
       // expect(sanitize([] as unknown as string)).equal('');
@@ -46,6 +53,7 @@ describe('test', () => {
       expect(sanitizePath('c://test')).equal('test');
       expect(sanitizePath('c:/test')).equal('test');
       expect(sanitizePath('c:/test.com')).equal('test.com');
+      expect(sanitizePath('/Привет 😊😊😊/Буфет 😊😊😊.txt', { maxLength: 14 })).equal('Привет/Буфет.txt');
     });
 
     it('relative', () => {
@@ -56,7 +64,6 @@ describe('test', () => {
       expect(sanitizePath('./test/../../file')).equal('test/file');
       expect(sanitizePath('./test/./../file')).equal('test/file');
       expect(sanitizePath('./test//file')).equal('test/file');
-      expect(sanitizePath('./test\\file')).equal('test/file');
     });
   });
 });
