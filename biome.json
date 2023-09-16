@@ -13,7 +13,10 @@
   },
   "linter": {
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noControlCharactersInRegex": "off"
+      }
     }
   }
 }
