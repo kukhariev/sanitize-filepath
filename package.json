@@ -43,7 +43,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@biomejs/biome": "1.2.1",
+    "@biomejs/biome": "1.5.3",
     "@types/chai": "4.3.5",
     "@types/mocha": "10.0.1",
     "@types/node": "20.2.5",
