@@ -44,16 +44,16 @@
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/chai": "4.3.20",
+    "@types/chai": "5.2.1",
     "@types/mocha": "10.0.10",
-    "@types/node": "20.17.23",
-    "chai": "4.5.0",
+    "@types/node": "22.15.3",
+    "chai": "5.2.0",
     "mitata": "^0.1.14",
-    "mocha": "10.8.2",
+    "mocha": "11.1.0",
     "sanitize-filename": "^1.6.3",
     "ts-node-dev": "2.0.0",
     "tsup": "^8.4.0",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "mocha": {
     "extension": [
